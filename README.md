@@ -1,5 +1,6 @@
 # AI4Finance Final Project: \<Project Name Here>
 
+<<<<<<< HEAD
 ## 分工
 
 ### 收益预测

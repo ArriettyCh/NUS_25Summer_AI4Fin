@@ -1,1 +1,3 @@
-# NUS_25Summer_AI4Fin
+# AI4Finance Final Project: \<Project Name Here>
+
+## 

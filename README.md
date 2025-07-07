@@ -1,6 +1,5 @@
-# AI4Finance Final Project: \<Project Name Here>
+# AI4Finance Final Project: \<Project Name>
 
-<<<<<<< HEAD
 ## 分工
 
 ### 收益预测
@@ -24,4 +23,5 @@
 
 ### 前端
 
-陈加琪、林闻起
+陈嘉琪、林闻起
+

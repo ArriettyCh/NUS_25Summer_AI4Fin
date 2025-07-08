@@ -24,3 +24,7 @@
 ## `sample_submission.csv` File
 
 这是目标生成结果的样例，一共是两列，`id` 和 `predic_return`，前者由 `submission_id.csv` 文件给出，后者是预测的收益率
+
+## `Three_Factors...csv.py`
+
+这是一个简单的样例代码，采用基本的特征工程 + OLS 的形式预测结果。我们可以参考这个代码来实现自己的特征工程和模型训练。

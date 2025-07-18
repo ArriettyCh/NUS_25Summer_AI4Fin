@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import './Page2.css'; // Assuming you have a CSS file for global styles
+import React, { useState, useEffect} from 'react';
+import ConfusionMatrix from './components/ConfusionMatrix';
+import ReactECharts from 'echarts-for-react';
+import '../../tailwind.css';
 import { 
   LineChart, 
   Line, 
@@ -71,7 +73,7 @@ const Page2 = () => {
               <div className="flex items-center space-x-2">
                 <span className="text-sm font-medium text-gray-700">Chart Type:</span>
                 <div className="flex rounded-lg bg-gray-100 p-1">
-                  {['Confusion', 'ROC', 'Precision'].map((chart) => (
+                  {['Confusion', 'Per-Class Metrics'].map((chart) => (
                     <button
                       key={chart}
                       onClick={() => setSelectedChart(chart)}
@@ -96,10 +98,19 @@ const Page2 = () => {
     </div>
   );
 };
-
+/*
 const ChartDisplay = ({ mode, labelChart }) => {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    if (mode === 'Value') {
+      fetch('./predicted_vs_actual.json')
+        .then(res => res.json())
+        .then(json => setData(json))
+      .catch(err => console.error('❌ 加载 JSON 文件失败:', err));
+    }
+  }, [mode]);
   if (mode === 'Value') {
-    const data = [
+     const data = [
       { time: 'T1', actual: 10, predicted: 9 },
       { time: 'T2', actual: 12, predicted: 11 },
       { time: 'T3', actual: 11, predicted: 12 },
@@ -111,7 +122,6 @@ const ChartDisplay = ({ mode, labelChart }) => {
       { time: 'T9', actual: 15, predicted: 16 },
       { time: 'T10', actual: 18, predicted: 17 },
     ];
-
     return (
       <div className="bg-white rounded-lg shadow-lg p-6">
         <div className="mb-6">
@@ -138,16 +148,16 @@ const ChartDisplay = ({ mode, labelChart }) => {
               dataKey="actual" 
               stroke="#3b82f6" 
               strokeWidth={3}
-              dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+              dot={false}
               name="Actual"
             />
             <Line 
               type="monotone" 
               dataKey="predicted" 
-              stroke="#10b981" 
+              stroke="#ADD8E6" 
               strokeWidth={3}
               strokeDasharray="8 8"
-              dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
+              dot={false}
               name="Predicted"
             />
           </LineChart>
@@ -168,94 +178,135 @@ const ChartDisplay = ({ mode, labelChart }) => {
       return null;
   }
 };
+*/
+const ChartDisplay = ({ mode, labelChart }) => {
+  const [data, setData] = useState([]);
 
-const ConfusionMatrix = () => {
-  const matrixData = [
-    [25, 3, 2],
-    [4, 28, 3],
-    [1, 2, 30]
-  ];
-  
-  const labels = ['Class A', 'Class B', 'Class C'];
-  const maxValue = 30;
-  
-  return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
-      <div className="mb-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">Confusion Matrix</h2>
-        <p className="text-gray-600">3x3 Classification Results</p>
+  useEffect(() => {
+    if (mode === 'Value') {
+      fetch('./predicted_vs_actual.json')
+        .then(res => res.json())
+        .then(json => setData(json))
+        .catch(err => console.error('❌ 加载 JSON 文件失败:', err));
+    }
+  }, [mode]);
+
+  if (mode === 'Value') {
+    const times = data.map(item => item.time);
+    const actuals = data.map(item => item.actual);
+    const predicteds = data.map(item => item.predicted);
+
+    const option = {
+      tooltip: {
+        trigger: 'axis',
+        backgroundColor: '#fff',
+        borderColor: '#e5e7eb',
+        borderWidth: 1,
+        borderRadius: 8,
+        textStyle: {
+          color: '#000',
+        },
+        extraCssText: 'box-shadow: 0 4px 6px rgba(0,0,0,0.1);',
+      },
+      legend: {
+        data: ['Actual', 'Predicted'],
+        top: 10,
+        icon: 'circle', // 可选：'rect' | 'circle' | 'roundRect' 等
+      },
+      grid: {
+        left: 50,
+        right: 30,
+        bottom: 50,
+        top: 60,
+      },
+      xAxis: {
+        type: 'category',
+        data: times,
+        boundaryGap: false,
+        axisLine: {
+          lineStyle: {
+            color: '#666',
+          },
+        },
+        axisLabel: {
+          rotate: 45,
+        },
+      },
+      yAxis: {
+        type: 'value',
+        axisLine: {
+          lineStyle: {
+            color: '#666',
+          },
+        },
+        splitLine: {
+          lineStyle: {
+            color: '#f0f0f0',
+          },
+        },
+      },
+      series: [
+        {
+          name: 'Actual',
+          type: 'line',
+          data: actuals,
+          smooth: true,
+          lineStyle: {
+            width: 1,
+            color: '#3b82f6', // 蓝色
+          },
+          itemStyle: {
+            color: '#3b82f6', // 图例颜色匹配
+          },
+          showSymbol: false,
+        },
+        {
+          name: 'Predicted',
+          type: 'line',
+          data: predicteds,
+          smooth: true,
+          lineStyle: {
+            width: 1,
+            color: '#ADD8E6', // 浅蓝色
+          },
+          itemStyle: {
+            color: '#ADD8E6', // 图例颜色匹配
+          },
+          showSymbol: false,
+        },
+      ],
+    };
+
+    return (
+      <div className="bg-white rounded-lg shadow-lg p-6">
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold text-slate-800 mb-3">Value Prediction Analysis</h2>
+          <p className="text-gray-600">Comparison between actual and predicted values over time</p>
+        </div>
+        <ReactECharts
+          option={option}
+          style={{ height: 600, width: '100%' }}
+          notMerge={true}
+          lazyUpdate={true}
+          theme="light"
+        />
       </div>
-      
-      <div className="flex flex-col items-center">
-        <div className="mb-4">
-          <div className="text-center mb-2">
-            <span className="text-sm font-medium text-gray-700">Predicted Label</span>
-          </div>
-          <div className="flex">
-            <div className="w-20"></div>
-            {labels.map((label, i) => (
-              <div key={i} className="w-20 text-center text-sm font-medium text-gray-700 mb-2">
-                {label}
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="flex">
-          <div className="flex flex-col justify-center mr-4">
-            <div className="transform -rotate-90 text-sm font-medium text-gray-700 mb-8">
-              True Label
-            </div>
-          </div>
-          
-          <div className="flex flex-col">
-            {matrixData.map((row, i) => (
-              <div key={i} className="flex items-center mb-1">
-                <div className="w-16 text-right text-sm font-medium text-gray-700 mr-2">
-                  {labels[i]}
-                </div>
-                <div className="flex">
-                  {row.map((value, j) => {
-                    const intensity = value / maxValue;
-                    const isCorrect = i === j;
-                    
-                    return (
-                      <div
-                        key={j}
-                        className="w-20 h-16 m-0.5 rounded-lg flex items-center justify-center border-2 transition-all hover:scale-105 cursor-pointer"
-                        style={{
-                          backgroundColor: isCorrect 
-                            ? `rgba(34, 197, 94, ${0.3 + intensity * 0.7})`
-                            : `rgba(239, 68, 68, ${0.2 + intensity * 0.6})`,
-                          borderColor: isCorrect ? '#22c55e' : '#ef4444'
-                        }}
-                      >
-                        <span className="text-lg font-bold text-gray-800">
-                          {value}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="mt-6 flex items-center space-x-6 text-sm">
-          <div className="flex items-center">
-            <div className="w-4 h-4 bg-green-400 rounded mr-2"></div>
-            <span className="text-gray-600">Correct Predictions</span>
-          </div>
-          <div className="flex items-center">
-            <div className="w-4 h-4 bg-red-400 rounded mr-2"></div>
-            <span className="text-gray-600">Incorrect Predictions</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    );
+  }
+
+  // 其他模式图表切换
+  switch (labelChart) {
+    case 'Confusion':
+      return <ConfusionMatrix />;
+    // case 'ROC':
+    //  return <ROCCurve />;
+    case 'Per-Class Metrics':
+      return <MetricsChart />;
+    default:
+      return null;
+  }
 };
+
 
 const ROCCurve = () => {
   const data = [
@@ -342,15 +393,15 @@ const ROCCurve = () => {
 
 const PrecisionChart = () => {
   const data = [
-    { class: 'Class A', precision: 0.85, color: '#3b82f6' },
-    { class: 'Class B', precision: 0.76, color: '#10b981' },
-    { class: 'Class C', precision: 0.92, color: '#f59e0b' },
+    { class: '0', precision: 0.89635194, color: '#3b82f6' },
+    { class: '1', precision: 0.97948849, color: '#10b981' },
+    { class: '2', precision: 0.89740669, color: '#f59e0b' },
   ];
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
       <div className="mb-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">Precision Analysis</h2>
+        <h2 className="text-2xl font-bold text-slate-800 mb-3">Precision Analysis</h2>
         <p className="text-gray-600">Precision scores for each classification class</p>
       </div>
       
@@ -392,5 +443,63 @@ const PrecisionChart = () => {
     </div>
   );
 };
+
+const MetricsChart = () => {
+  const data = [
+    {
+      class: '0',
+      precision: 0.89635194,
+      recall: 0.92836493,
+      f1: 0.91206931
+    },
+    {
+      class: '1',
+      precision: 0.97948849,
+      recall: 0.95372865,
+      f1: 0.96641565
+    },
+    {
+      class: '2',
+      precision: 0.89740669,
+      recall: 0.84764828,
+      f1: 0.87181001
+    }
+  ];
+
+  return (
+    <div className="bg-white rounded-lg shadow-lg p-6">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-slate-800 mb-3">Per-Class Metrics Comparison</h2>
+        <p className="text-gray-600">Precision, Recall, and F1-score for each class</p>
+      </div>
+
+      <ResponsiveContainer width="100%" height={400}>
+        <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+          <XAxis dataKey="class" stroke="#666" />
+          <YAxis domain={[0, 1]} stroke="#666" />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: '#fff',
+              border: '1px solid #e5e7eb',
+              borderRadius: '8px',
+              boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+            }}
+            formatter={(value, name) => [value.toFixed(3), name.charAt(0).toUpperCase() + name.slice(1)]}
+          />
+          <Legend />
+          <Bar dataKey="precision" fill="#3b82f6" name="Precision" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="recall" fill="#10b981" name="Recall" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="f1" fill="#f59e0b" name="F1-score" radius={[4, 4, 0, 0]} />
+        </BarChart>
+      </ResponsiveContainer>
+
+      <div className="mt-4 text-sm text-gray-600 text-center">
+        Values are shown for Class 0, 1, and 2. All metrics are between 0 and 1.
+      </div>
+    </div>
+  );
+};
+
 
 export default Page2;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import Page1 from './pages/page1/Page1';
 import Page2 from './pages/page2/Page2';
+import Page1 from './pages/page1/Page1';
 
 const Home = () => (
   <div style={{

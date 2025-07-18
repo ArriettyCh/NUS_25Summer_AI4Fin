@@ -394,7 +394,8 @@ function Page1() {
                 <select 
                   value={selectedStock} 
                   onChange={(e) => setSelectedStock(parseInt(e.target.value))}
-                  className="stock-select"
+                  className="stock-select text-black bg-white"
+                  style={{ color: 'black' }}
                 >
                   <option value={1}>
                     {language === 'zh' ? '股票 A' : 'Stock A'}

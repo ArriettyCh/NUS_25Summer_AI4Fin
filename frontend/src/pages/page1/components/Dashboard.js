@@ -2,9 +2,10 @@
 import React from 'react';
 import { translations } from '../utils/translations';
 
-const Dashboard = ({ userPortfolio, aiPortfolio, currentWeek, currentPrice, language }) => {
+const Dashboard = ({ userPortfolio, aiPortfolio, currentPrice, language }) => {
+  console.log('Dashboard props:', { userPortfolio, aiPortfolio, currentPrice }); 
   const t = translations[language];
-
+  console.log('translations props:', t); 
   return (
     <div className="dashboard">
       <h3>{t.portfolioDashboard}</h3>
@@ -16,7 +17,7 @@ const Dashboard = ({ userPortfolio, aiPortfolio, currentWeek, currentPrice, lang
           <div className="portfolio-stats">
             <div className="stat-item">
               <span className="stat-label">{t.cash}</span>
-              <span className="stat-value">¥{userPortfolio.cash.toFixed(0)}</span>
+              <span className="stat-value">${userPortfolio.cash.toFixed(0)}</span>
             </div>
             <div className="stat-item">
               <span className="stat-label">{t.shares}</span>
@@ -24,11 +25,11 @@ const Dashboard = ({ userPortfolio, aiPortfolio, currentWeek, currentPrice, lang
             </div>
             <div className="stat-item">
               <span className="stat-label">{t.stockValue}</span>
-              <span className="stat-value">¥{(userPortfolio.shares * currentPrice).toFixed(0)}</span>
+              <span className="stat-value">${(userPortfolio.shares * currentPrice).toFixed(0)}</span>
             </div>
             <div className="stat-item">
               <span className="stat-label">{t.totalAssets}</span>
-              <span className="stat-value">¥{userPortfolio.totalValue.toFixed(0)}</span>
+              <span className="stat-value">${userPortfolio.totalValue.toFixed(0)}</span>
             </div>
             <div className="stat-item highlight">
               <span className="stat-label">{t.returnRate}</span>
@@ -44,7 +45,7 @@ const Dashboard = ({ userPortfolio, aiPortfolio, currentWeek, currentPrice, lang
           <div className="portfolio-stats">
             <div className="stat-item">
               <span className="stat-label">{t.cash}</span>
-              <span className="stat-value">¥{aiPortfolio.cash.toFixed(0)}</span>
+              <span className="stat-value">${aiPortfolio.cash.toFixed(0)}</span>
             </div>
             <div className="stat-item">
               <span className="stat-label">{t.shares}</span>
@@ -52,11 +53,11 @@ const Dashboard = ({ userPortfolio, aiPortfolio, currentWeek, currentPrice, lang
             </div>
             <div className="stat-item">
               <span className="stat-label">{t.stockValue}</span>
-              <span className="stat-value">¥{(aiPortfolio.shares * currentPrice).toFixed(0)}</span>
+              <span className="stat-value">${(aiPortfolio.shares * currentPrice).toFixed(0)}</span>
             </div>
             <div className="stat-item">
               <span className="stat-label">{t.totalAssets}</span>
-              <span className="stat-value">¥{aiPortfolio.totalValue.toFixed(0)}</span>
+              <span className="stat-value">${aiPortfolio.totalValue.toFixed(0)}</span>
             </div>
             <div className="stat-item highlight">
               <span className="stat-label">{t.returnRate}</span>
@@ -77,7 +78,7 @@ const Dashboard = ({ userPortfolio, aiPortfolio, currentWeek, currentPrice, lang
             <div className="bar-container">
               <div 
                 className={`bar user-bar ${userPortfolio.returnRate >= 0 ? 'positive' : 'negative'}`}
-                style={{ width: `${Math.min(Math.abs(userPortfolio.returnRate) * 2, 100)}%` }}
+                style={{ width: `${Math.min(Math.abs(userPortfolio.returnRate) * 50, 100)}%` }}
               >
                 {userPortfolio.returnRate.toFixed(1)}%
               </div>
@@ -88,7 +89,7 @@ const Dashboard = ({ userPortfolio, aiPortfolio, currentWeek, currentPrice, lang
             <div className="bar-container">
               <div 
                 className={`bar ai-bar ${aiPortfolio.returnRate >= 0 ? 'positive' : 'negative'}`}
-                style={{ width: `${Math.min(Math.abs(aiPortfolio.returnRate) * 2, 100)}%` }}
+                style={{ width: `${Math.min(Math.abs(aiPortfolio.returnRate) * 50, 100)}%` }}
               >
                 {aiPortfolio.returnRate.toFixed(1)}%
               </div>

@@ -515,3 +515,30 @@
     font-size: 12px;
   }
 }
+
+.stock-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 16px;
+}
+
+.selector-label {
+  font-size: 14px;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.stock-select {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.stock-select:focus {
+  outline: none;
+  border-color: #007bff;
+}

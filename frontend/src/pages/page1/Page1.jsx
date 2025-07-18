@@ -189,6 +189,7 @@ import { translations } from './utils/translations';
 function Page1() {
   const [currentWeek, setCurrentWeek] = useState(0);
   const [stockData, setStockData] = useState([]);
+  const [selectedStock, setSelectedStock] = useState(1);
   const [userPortfolio, setUserPortfolio] = useState({
     cash: 10000,
     shares: 0,
@@ -207,11 +208,17 @@ function Page1() {
   const t = translations[language];
   const [dataLoaded, setDataLoaded] = useState(false);
 
+    // 根据选择的股票获取数据路径
+  const getDataPath = (stockSelection) => {
+    return `/data/data-${stockSelection}.json`;
+  };
+
   useEffect(() => {
     if (!dataLoaded) {
       const loadData = async () => {
         console.log('开始加载数据...');
-        const initialStockData = await loadStockData();
+        const choosepath = getDataPath(selectedStock);
+        const initialStockData = await loadStockData(choosepath);
         console.log('111得到的数据是:', initialStockData);
         setStockData(initialStockData);
         setDataLoaded(true);
@@ -378,6 +385,33 @@ function Page1() {
             <button onClick={toggleLanguage} className="language-btn">
               {language === 'zh' ? 'EN' : '中'}
             </button>
+
+             {!gameStarted && (
+              <div className="stock-selector">
+                <label className="selector-label">
+                  {language === 'zh' ? '选择股票:' : 'Select Stock:'}
+                </label>
+                <select 
+                  value={selectedStock} 
+                  onChange={(e) => setSelectedStock(parseInt(e.target.value))}
+                  className="stock-select"
+                >
+                  <option value={1}>
+                    {language === 'zh' ? '股票 A' : 'Stock A'}
+                  </option>
+                  <option value={2}>
+                    {language === 'zh' ? '股票 B' : 'Stock B'}
+                  </option>
+                  <option value={3}>
+                    {language === 'zh' ? '股票 C' : 'Stock C'}
+                  </option>
+                  <option value={4}>
+                    {language === 'zh' ? '股票 D' : 'Stock D'}
+                  </option>
+                </select>
+              </div>
+            )}
+
             <div className="game-controls">
               {!gameStarted ? (
                 <button onClick={startGame} className="start-btn">

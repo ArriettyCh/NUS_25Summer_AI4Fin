@@ -23,3 +23,13 @@
 
 @陈嘉琪、林闻起
 
+进入frontend目录，然后执行
+
+```shell
+npm install
+```
+
+```
+npm start
+```
+

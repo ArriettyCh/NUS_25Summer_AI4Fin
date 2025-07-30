@@ -1,0 +1,11 @@
+
+{
+  "decisions": [
+    "buy", "buy", "buy", "buy", "sell", "hold", "buy", "hold", "hold", "hold",
+    "sell", "hold", "hold", "buy", "hold", "sell", "hold", "hold", "hold", "buy",
+    "hold", "hold", "sell", "hold", "hold", "hold", "buy", "hold", "hold", "hold",
+    "sell", "hold", "hold", "hold", "buy", "hold", "hold", "sell", "hold", "hold",
+    "hold", "buy", "hold", "hold", "hold", "sell", "hold", "hold", "hold", "buy",
+    "hold", "hold"
+  ]
+}

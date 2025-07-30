@@ -1,0 +1,544 @@
+/* App.css - 优化版本 */
+.App {
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 开始界面占满整个屏幕 */
+.app-header {
+  background: linear-gradient(135deg, #1976d2, #42a5f5);
+  color: white;
+  padding: 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+/* 游戏开始前的全屏显示 */
+.app-header.fullscreen {
+  min-height: 100vh;
+}
+
+/* 游戏中的紧凑头部 */
+.app-header.compact {
+  min-height: auto;
+  padding: 15px 20px;
+  flex: none;
+}
+
+.app-header h1 {
+  margin: 0 0 20px 0;
+  font-size: 3em;
+  font-weight: 300;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.app-header.compact h1 {
+  font-size: 1.8em;
+  margin: 0;
+}
+
+.game-controls {
+  margin-top: 20px;
+}
+
+.app-header.compact .game-controls {
+  margin-top: 0;
+  margin-left: auto;
+}
+
+.start-btn, .reset-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.app-header.compact .start-btn,
+.app-header.compact .reset-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.start-btn:hover, .reset-btn:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+.game-container {
+  display: flex;
+  flex: 1;
+  max-width: 100%;
+  margin: 0;
+  gap: 15px;
+  padding: 15px;
+  height: calc(100vh - 80px); /* 减去header高度 */
+  overflow: hidden;
+}
+
+.left-panel {
+  flex: 2;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.right-panel {
+  flex: 1;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* Stock Chart Styles */
+.stock-chart {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.stock-chart h3 {
+  color: #333;
+  margin: 0 0 15px 0;
+  font-size: 1.3em;
+}
+
+.chart-container {
+  flex: 1;
+  min-height: 250px;
+}
+
+.current-week-indicator {
+  margin-top: 8px;
+  font-weight: bold;
+  color: #1976d2;
+  font-size: 0.9em;
+}
+
+/* Trading Panel Styles */
+.trading-panel {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.trading-panel h3 {
+  color: #333;
+  margin: 0 0 10px 0;
+  font-size: 1.1em;
+}
+
+.current-price {
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #1976d2;
+  margin-bottom: 15px;
+}
+
+.trading-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.buy-btn, .hold-btn, .sell-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-width: 80px;
+}
+
+.buy-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.buy-btn:hover {
+  background-color: #45a049;
+}
+
+.hold-btn {
+  background-color: #ff9800;
+  color: white;
+}
+
+.hold-btn:hover {
+  background-color: #e68900;
+}
+
+.sell-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.sell-btn:hover {
+  background-color: #da190b;
+}
+
+.buy-btn:disabled, .hold-btn:disabled, .sell-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.game-over {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #666;
+  font-size: 0.9em;
+}
+
+/* Dashboard Styles */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.dashboard h3 {
+  color: #333;
+  margin: 0 0 15px 0;
+  font-size: 1.3em;
+}
+
+/* 水平布局的投资组合 */
+.portfolios-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.portfolio-section {
+  flex: 1;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 2px solid transparent;
+}
+
+.portfolio-section.user {
+  border-color: #4caf50;
+}
+
+.portfolio-section.ai {
+  border-color: #2196f3;
+}
+
+.portfolio-section h4 {
+  color: #333;
+  margin: 0 0 10px 0;
+  text-align: center;
+  font-size: 1em;
+}
+
+.portfolio-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 0.85em;
+}
+
+.stat-item.highlight {
+  font-weight: bold;
+  font-size: 0.95em;
+  padding: 6px 0;
+  border-top: 1px solid #ddd;
+  margin-top: 4px;
+}
+
+.stat-label {
+  color: #666;
+}
+
+.stat-value {
+  font-weight: bold;
+}
+
+.stat-value.positive {
+  color: #4caf50;
+}
+
+.stat-value.negative {
+  color: #f44336;
+}
+
+/* 收益对比部分 */
+.comparison-section {
+  margin-top: 15px;
+  padding: 12px;
+  background-color: #f0f8ff;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.comparison-section h4 {
+  color: #333;
+  margin: 0 0 10px 0;
+  text-align: center;
+  font-size: 1em;
+}
+
+.comparison-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.comparison-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bar-label {
+  font-weight: bold;
+  color: #333;
+  font-size: 0.85em;
+  min-width: 60px;
+  text-align: left;
+}
+
+.bar-container {
+  flex: 1;
+  height: 20px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 0.75em;
+  min-width: 40px;
+  transition: width 0.5s ease;
+}
+
+.user-bar.positive {
+  background-color: #4caf50;
+}
+
+.user-bar.negative {
+  background-color: #f44336;
+}
+
+.ai-bar.positive {
+  background-color: #2196f3;
+}
+
+.ai-bar.negative {
+  background-color: #ff5722;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .game-container {
+    height: calc(100vh - 70px);
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  .portfolios-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .portfolio-section {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-header h1 {
+    font-size: 2.5em;
+  }
+  
+  .app-header.compact h1 {
+    font-size: 1.5em;
+  }
+  
+  .game-container {
+    flex-direction: column;
+    height: calc(100vh - 60px);
+    padding: 8px;
+  }
+  
+  .left-panel, .right-panel {
+    padding: 12px;
+  }
+  
+  .trading-buttons {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .buy-btn, .hold-btn, .sell-btn {
+    min-width: 70px;
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}
+
+/* 确保图表容器正确显示 */
+.recharts-wrapper {
+  font-size: 12px;
+}
+
+/* 优化滚动条样式 */
+.right-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.right-panel::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.right-panel::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.right-panel::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+.app-header.compact .header-content {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.app-header.fullscreen .header-controls {
+  flex-direction: column;
+  gap: 20px;
+}
+
+.language-btn {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: bold;
+  min-width: 40px;
+}
+
+.language-btn:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.app-header.compact .language-btn {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.game-controls {
+  display: flex;
+  align-items: center;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .header-controls {
+    gap: 10px;
+  }
+  
+  .app-header.fullscreen .header-controls {
+    gap: 15px;
+  }
+  
+  .language-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}
+
+.stock-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 16px;
+}
+
+.selector-label {
+  font-size: 14px;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.stock-select {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.stock-select:focus {
+  outline: none;
+  border-color: #007bff;
+}

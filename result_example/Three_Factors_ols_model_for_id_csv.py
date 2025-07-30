@@ -17,7 +17,7 @@ class OlsModel:
         symbol_list = [parquet_name.split(".")[0] for parquet_name in parquet_name_list]
         return symbol_list
     
-    def get_single_symbol_kline_data(self, symbol):
+    def get_singlƒe_symbol_kline_data(self, symbol):
         try:
             # read the specified cryptocurrency's Parquet file and obtain its K-line data as a DataFrame
             df = pd.read_parquet(f"{self.train_data_path}/{symbol}.parquet")
